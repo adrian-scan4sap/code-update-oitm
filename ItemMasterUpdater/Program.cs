@@ -65,22 +65,22 @@ namespace ItemMasterUpdater
                 {
                     if (!string.IsNullOrEmpty(itemData.Width))
                     {
-                        sapItem.SalesUnitWidth1 = double.Parse(itemData.Width);
+                        sapItem.SalesUnitWidth = double.Parse(itemData.Width);
                     }
 
                     if (!string.IsNullOrEmpty(itemData.Height))
                     {
-                        sapItem.SalesUnitHeight1 = double.Parse(itemData.Height);
+                        sapItem.SalesUnitHeight = double.Parse(itemData.Height);
                     }
 
                     if (!string.IsNullOrEmpty(itemData.Length))
                     {
-                        sapItem.SalesUnitLength1 = double.Parse(itemData.Length);
+                        sapItem.SalesUnitLength = double.Parse(itemData.Length);
                     }
 
                     if (!string.IsNullOrEmpty(itemData.Weight))
                     {
-                        sapItem.SalesUnitWeight1 = double.Parse(itemData.Weight);
+                        sapItem.SalesUnitWeight = double.Parse(itemData.Weight);
                     }
 
                     if (sapItem.Update() != 0)
