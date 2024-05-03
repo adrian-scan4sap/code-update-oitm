@@ -33,7 +33,7 @@ namespace ItemMasterUpdater
 
                 Console.WriteLine(string.Format("Processing [{0}] items...", decodedList.Count));
                 var counter = 1;
-                
+
                 /* SAP Updates */
                 foreach (var decodedItem in decodedList)
                 {
@@ -88,7 +88,7 @@ namespace ItemMasterUpdater
                     }
                     else
                     {
-                        result = string.Format("OK for [{0}] with /tWidth [{1}]/tLength [{2}]/tHeight [{3}]/tWeight [{4}]", itemData.ItemCode, itemData.Width, itemData.Length, itemData.Height, itemData.Weight);
+                        result = string.Format("OK for [{0}] with | Width [{1}] | Length [{2}] | Height [{3}] | Weight [{4}]", itemData.ItemCode, itemData.Width, itemData.Length, itemData.Height, itemData.Weight);
                     }
                 }
                 else
@@ -106,7 +106,7 @@ namespace ItemMasterUpdater
 
         private static List<ItemData> DecodeCsv(string csvPath)
         {
-            var returnedList = new List<ItemData>();            
+            var returnedList = new List<ItemData>();
 
             foreach (var line in System.IO.File.ReadAllLines(csvPath))
             {
