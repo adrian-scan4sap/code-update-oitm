@@ -48,8 +48,7 @@ namespace ItemMasterUpdater
             /* Disconnect + also release the held memory */
             Disconnect(ref company);
 
-            Console.WriteLine(Environment.NewLine + "Disconnected. Press any key to exit.");
-            Console.ReadKey();
+            Console.WriteLine(Environment.NewLine + "Disconnected.");
         }
 
         private static string UpdateSapItemMaster(Company company, ItemData itemData)
@@ -86,6 +85,10 @@ namespace ItemMasterUpdater
                     if (sapItem.Update() != 0)
                     {
                         result = string.Format("SAP Error: {0}", company.GetLastErrorDescription());
+                    }
+                    else
+                    {
+                        result = string.Format("OK for [{0}] with /tWidth [{1}]/tLength [{2}]/tHeight [{3}]/tWeight [{4}]", itemData.ItemCode, itemData.Width, itemData.Length, itemData.Height, itemData.Weight);
                     }
                 }
                 else

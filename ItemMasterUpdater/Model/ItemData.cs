@@ -10,6 +10,7 @@
             Length = length;
             Width = width;
             Height = height;
+            Weight = weight;
         }
 
         public string ItemCode { get; set; }
