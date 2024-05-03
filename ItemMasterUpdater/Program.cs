@@ -10,17 +10,23 @@ namespace ItemMasterUpdater
     {
         static void Main(string[] args)
         {
+            if (args.Length < 7)
+            {
+                Console.WriteLine("Usage: [1] csv file location, [2] server name, [3] dbUser, [4] dbPassword, [5] dbName, [6] sapUser, [7] sapPassword");
+                return;
+            }
+
             /* Declare the company variable - the connection */
             Company company = null;
 
             Console.WriteLine("Connecting to SAP...");
 
             /* Connect returns if connection has been established as bool */
-            var isConnected = Connect(ref company, args[0], BoDataServerTypes.dst_MSSQL2016, args[1], args[2], args[3], args[4], args[5]);
+            var isConnected = Connect(ref company, args[1], BoDataServerTypes.dst_MSSQL2016, args[2], args[3], args[4], args[5], args[6]);
 
             if (isConnected)
             {
-                var csvPath = @"C:\Temp\items.csv";
+                var csvPath = args[0];
 
                 /* CSV to Model */
                 var decodedList = DecodeCsv(csvPath);
