@@ -12,7 +12,7 @@ namespace ItemMasterUpdater
         {
             if (args.Length < 7)
             {
-                Console.WriteLine("Usage: [1] csv file location, [2] server name, [3] dbUser, [4] dbPassword, [5] dbName, [6] sapUser, [7] sapPassword");
+                Console.WriteLine("Usage: [1] csv file location, [2] server name, [3] server type [4] dbUser, [5] dbPassword, [6] dbName, [7] sapUser, [8] sapPassword");
                 return;
             }
 
@@ -22,7 +22,7 @@ namespace ItemMasterUpdater
             Console.WriteLine("Connecting to SAP...");
 
             /* Connect returns if connection has been established as bool */
-            var isConnected = Connect(ref company, args[1], BoDataServerTypes.dst_MSSQL2016, args[2], args[3], args[4], args[5], args[6]);
+            var isConnected = Connect(ref company, args[1], (BoDataServerTypes)Enum.Parse(typeof(BoDataServerTypes), args[2]), args[3], args[4], args[5], args[6], args[7]);
 
             if (isConnected)
             {
@@ -62,25 +62,28 @@ namespace ItemMasterUpdater
 
                 if (isLoaded)
                 {
-                    if (!string.IsNullOrEmpty(itemData.Width))
-                    {
-                        sapItem.SalesUnitWidth = double.Parse(itemData.Width);
-                    }
+                    //if (!string.IsNullOrEmpty(itemData.Width))
+                    //{
+                    //    sapItem.SalesUnitWidth = double.Parse(itemData.Width);
+                    //}
 
-                    if (!string.IsNullOrEmpty(itemData.Height))
-                    {
-                        sapItem.SalesUnitHeight = double.Parse(itemData.Height);
-                    }
+                    //if (!string.IsNullOrEmpty(itemData.Height))
+                    //{
+                    //    sapItem.SalesUnitHeight = double.Parse(itemData.Height);
+                    //}
 
-                    if (!string.IsNullOrEmpty(itemData.Length))
-                    {
-                        sapItem.SalesUnitLength = double.Parse(itemData.Length);
-                    }
+                    //if (!string.IsNullOrEmpty(itemData.Length))
+                    //{
+                    //    sapItem.SalesUnitLength = double.Parse(itemData.Length);
+                    //}
 
-                    if (!string.IsNullOrEmpty(itemData.Weight))
-                    {
-                        sapItem.SalesUnitWeight = double.Parse(itemData.Weight);
-                    }
+                    //if (!string.IsNullOrEmpty(itemData.Weight))
+                    //{
+                    //    sapItem.SalesUnitWeight = double.Parse(itemData.Weight);
+                    //}
+
+                    sapItem.UserFields.Fields.Item("U_B2B_Web").Value = "Y";
+                    sapItem.UserFields.Fields.Item("U_B2C_Web").Value = "Y";
 
                     if (sapItem.Update() != 0)
                     {
@@ -88,7 +91,8 @@ namespace ItemMasterUpdater
                     }
                     else
                     {
-                        result = string.Format("OK for [{0}] with | Width [{1}] | Length [{2}] | Height [{3}] | Weight [{4}]", itemData.ItemCode, itemData.Width, itemData.Length, itemData.Height, itemData.Weight);
+                        //result = string.Format("OK for [{0}] with | Width [{1}] | Length [{2}] | Height [{3}] | Weight [{4}]", itemData.ItemCode, itemData.Width, itemData.Length, itemData.Height, itemData.Weight);
+                        result = string.Format("OK for [{0}]", itemData.ItemCode, itemData.Width, itemData.Length, itemData.Height, itemData.Weight);
                     }
                 }
                 else
@@ -110,9 +114,17 @@ namespace ItemMasterUpdater
 
             foreach (var line in System.IO.File.ReadAllLines(csvPath))
             {
-                var splittedLine = line.Split(new char[] { ',' });
+                try
+                {
+                    if (!string.IsNullOrWhiteSpace(line))
+                    {
+                        var splittedLine = line.Split(new char[] { ',' });
 
-                returnedList.Add(new ItemData(splittedLine[0], splittedLine[1], splittedLine[2], splittedLine[3], splittedLine[4]));
+                        //returnedList.Add(new ItemData(splittedLine[0], splittedLine[1], splittedLine[2], splittedLine[3], splittedLine[4]));
+                        returnedList.Add(new ItemData() { ItemCode = splittedLine[0] });
+                    }
+                }
+                catch { }
             }
 
             return returnedList;
